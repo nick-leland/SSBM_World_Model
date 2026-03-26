@@ -14,7 +14,7 @@ from pathlib import Path
 from huggingface_hub import HfApi, hf_hub_download
 
 # Allow running from project root
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
 from config import HF_DATASET_ID, RAW_DIR, RANDOM_SEED
 
 log = logging.getLogger(__name__)

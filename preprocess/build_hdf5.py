@@ -32,7 +32,7 @@ import numpy as np
 import pandas as pd
 from PIL import Image
 
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
 from config import (
     ACTION_COLS,
     FRAMES_DIR,

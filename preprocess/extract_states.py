@@ -9,6 +9,7 @@ Usage:
     python preprocess/extract_states.py --slp-dir data/raw --out-dir data/states -j 8
 """
 import argparse
+import importlib.util
 import json
 import logging
 import multiprocessing as mp
@@ -17,12 +18,20 @@ import time
 from pathlib import Path
 
 # Allow running from project root
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
 from config import EXTRACTOR_DIR, RAW_DIR, STATES_DIR
 
-# Add slippi-frame-extractor to path so we can import process_replay directly
-sys.path.insert(0, str(EXTRACTOR_DIR))
-from extract import process_replay  # noqa: E402
+# Load process_replay from slippi-frame-extractor/extract.py by absolute path
+# to avoid sys.path ordering issues.
+def _load_extractor():
+    spec = importlib.util.spec_from_file_location(
+        "slippi_extract", EXTRACTOR_DIR / "extract.py"
+    )
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod.process_replay
+
+process_replay = _load_extractor()
 
 log = logging.getLogger(__name__)
 

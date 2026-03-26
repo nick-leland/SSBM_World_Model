@@ -35,10 +35,8 @@ import tempfile
 from pathlib import Path
 
 # Allow running from project root
-sys.path.insert(0, str(Path(__file__).parent))
+sys.path.insert(0, str(Path(__file__).parent.resolve()))
 from config import EXTRACTOR_DIR, FRAMES_DIR, RAW_DIR
-
-sys.path.insert(0, str(EXTRACTOR_DIR))
 
 log = logging.getLogger(__name__)
 
